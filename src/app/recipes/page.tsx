@@ -1,10 +1,10 @@
 import { Box, Typography, Container } from '@mui/material';
-import Search from '@/app/ui/search';
-import Pagination from '@/app/ui/pagination';
+import Search from '@/app/ui/Search';
+import Pagination from '@/app/ui/Pagination';
 import RecipesList from '@/app/recipes/RecipeList'
 import { getTotalItems } from '@/app/lib/data';
 import { Suspense } from 'react';
-import { AddRecipeButton } from '@/app/ui/buttons';
+import { AddRecipeButton } from '@/app/ui/Buttons';
 import Loading from '@/app/recipes/(overview)/loading';
 
 export default async function RecipesPage(props: { searchParams?: Promise<{ query?: string; page?: string }> }) {
@@ -15,7 +15,7 @@ export default async function RecipesPage(props: { searchParams?: Promise<{ quer
   const totalItems = await getTotalItems(query);
 
   return (
-    <Container maxWidth="lg" className="py-8">
+    <Container className="py-8">
       <Typography variant="h4" component="h1" className="font-bold text-gray-800" sx={{ textAlign: 'center' }}>
         All Recipes
       </Typography>

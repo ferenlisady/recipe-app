@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import { Recipe } from '@/app/lib/definition';
-import RecipeCard from '@/app/ui/recipeCard';
+import RecipeCard from '@/app/ui/RecipeCard';
 import { Suspense, use } from 'react';
 import { getFilteredRecipes } from '@/app/lib/data';
 import Loading from '@/app/recipes/(overview)/loading';

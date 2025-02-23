@@ -1,5 +1,5 @@
-import AddRecipeForm from '@/app/ui/add-form';
-import Breadcrumbs from '@/app/ui/breadcrumbs';
+import AddRecipeForm from '@/app/ui/Add-form';
+import Breadcrumbs from '@/app/ui/Breadcrumbs';
 import { getCategories } from '@/app/lib/data';
 
 export default async function Page() {

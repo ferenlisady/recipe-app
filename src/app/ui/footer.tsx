@@ -1,18 +1,22 @@
-import { Box, Container, Typography, Link } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 export default function Footer() {
   return (
-    <Container maxWidth="lg" color="primary">
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"   
-        py={3}                   
-      >
-        <Typography variant="body2" color="text.secondary">
-          &copy; 2025 My Recipe App. All Rights Reserved.
+    <Box
+      sx={{
+        backgroundColor: '#1565c0',
+        color: 'white',
+        py: 3,
+        position: 'relative',
+        bottom: 0,
+        width: '100%',
+      }}
+    >
+      <Container>
+        <Typography variant="body1" align="center">
+          &copy; 2025 Recipe App. All rights reserved.
         </Typography>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }

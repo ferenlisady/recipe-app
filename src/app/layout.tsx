@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/app/ui/navbar";
-import Footer from "@/app/ui/footer";
+import Navbar from "@/app/ui/Navbar";
+import Footer from "@/app/ui/Footer";
 
 export const metadata: Metadata = {
   title: "Recipe App",

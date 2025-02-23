@@ -1,12 +1,12 @@
 import { Card, CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
 import { Recipe } from '@/app/lib/definition';  
-import { UpdateRecipeButton, DeleteRecipeButton } from '@/app/ui/buttons';
+import { UpdateRecipeButton, DeleteRecipeButton } from '@/app/ui/Buttons';
 
 interface RecipeCardProps {
   recipe: Recipe;  
 }
 
-const MyRecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   return (
     
     <Card sx={{ maxWidth: 400, boxShadow: 3 }} key={recipe.id}>
@@ -44,4 +44,4 @@ const MyRecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   );
 };
 
-export default MyRecipeCard;
+export default RecipeCard;

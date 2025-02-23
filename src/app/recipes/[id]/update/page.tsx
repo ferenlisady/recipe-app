@@ -1,10 +1,10 @@
-import Breadcrumbs from '@/app/ui/breadcrumbs';
+import Breadcrumbs from '@/app/ui/Breadcrumbs';
 import { getCategories, getRecipeById  } from '@/app/lib/data';
-import EditRecipeForm from '@/app/ui/update-form';
+import EditRecipeForm from '@/app/ui/Update-form';
 import { Typography } from '@mui/material';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const id  = params.id;
   const categories = await getCategories(); 
   const recipe = await getRecipeById(id);
 

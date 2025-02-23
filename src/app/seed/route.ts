@@ -8,6 +8,14 @@ async function createTables(sql: any) {
     // console.log('Creating tables...');
     await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
+    await sql`
+      DO $$ BEGIN
+        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'recipe_category') THEN
+          CREATE TYPE recipe_category AS ENUM ('Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage');
+        END IF;
+      END $$;
+    `;
+
     // console.log('Creating recipes table...');
     await sql`
       CREATE TABLE IF NOT EXISTS recipes (
@@ -17,8 +25,7 @@ async function createTables(sql: any) {
         ingredients TEXT[] NOT NULL,
         instructions TEXT NOT NULL,
         category recipe_category NOT NULL, 
-        image_url VARCHAR(255) NOT NULL, 
-        created_at TIMESTAMP 
+        image_url VARCHAR(255) NOT NULL
       );  
     `;
 
@@ -36,7 +43,6 @@ async function seedRecipes(sql: any) {
         return sql`
           INSERT INTO recipes (id, title, description, ingredients, instructions, category, image_url)
           VALUES (${recipe.id}, ${recipe.title}, ${recipe.description}, ${recipe.ingredients}, ${recipe.instructions}, ${recipe.category}, ${recipe.image_url} )
-          ON CONFLICT (id) DO NOTHING;
         `;
       })
     );
