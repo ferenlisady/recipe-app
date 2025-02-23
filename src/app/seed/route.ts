@@ -1,37 +1,17 @@
-import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
-import { users, recipes } from '../lib/placeholder-data';
+import { recipes } from '../lib/placeholder-data';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 async function createTables(sql: any) {
   try {
-    console.log('Creating tables...');
+    // console.log('Creating tables...');
     await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-    await sql`
-      DO $$ BEGIN
-        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'recipe_category') THEN
-          CREATE TYPE recipe_category AS ENUM ('Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverage');
-        END IF;
-      END $$;
-    `;
-
-    console.log('Creating users table...');
-    await sql`
-      CREATE TABLE IF NOT EXISTS users (
-        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
-      );
-    `;
-
-    console.log('Creating recipes table...');
+    // console.log('Creating recipes table...');
     await sql`
       CREATE TABLE IF NOT EXISTS recipes (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        user_id UUID REFERENCES users(id) ON DELETE CASCADE,
         title VARCHAR(255) NOT NULL,
         description TEXT NOT NULL, 
         ingredients TEXT[] NOT NULL,
@@ -48,40 +28,14 @@ async function createTables(sql: any) {
   }
 }
 
-async function seedUsers(sql: any) {
-  try {
-    const insertedUsers = await Promise.all(
-      users.map(async (user) => {
-        const hashedPassword = await bcrypt.hash(user.password, 10);
-        const result = await sql`
-          INSERT INTO users (id, name, email, password)
-          VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
-          RETURNING id;
-        `;
-        return result[0].id;
-      })
-    );
-    return insertedUsers;
-  } catch (error) {
-    console.error('Error inserting users:', error);
-    throw error;
-  }
-}
-
-async function seedRecipes(sql: any, userIds: string[]) {
+async function seedRecipes(sql: any) {
   try {
     const insertedRecipes = await Promise.all(
       recipes.map((recipe, index) => {
-        const userId = userIds[index];
-
-        if (!userId) {
-          console.error(`Error: userId is undefined for recipe at index ${index}: ${recipe.title}`);
-          return; 
-        }
 
         return sql`
-          INSERT INTO recipes (id, user_id, title, description, ingredients, instructions, category, image_url, created_at)
-          VALUES (${recipe.id}, ${recipe.user_id}, ${recipe.title}, ${recipe.description}, ${recipe.ingredients}, ${recipe.instructions}, ${recipe.category}, ${recipe.image_url}, ${recipe.created_at})
+          INSERT INTO recipes (id, title, description, ingredients, instructions, category, image_url)
+          VALUES (${recipe.id}, ${recipe.title}, ${recipe.description}, ${recipe.ingredients}, ${recipe.instructions}, ${recipe.category}, ${recipe.image_url} )
           ON CONFLICT (id) DO NOTHING;
         `;
       })
@@ -97,8 +51,7 @@ export async function GET() {
   try {
     await sql.begin(async (sql) => {
       await createTables(sql);
-      const userIds = await seedUsers(sql);
-      await seedRecipes(sql, userIds);
+      await seedRecipes(sql);
 
       await new Promise(resolve => setTimeout(resolve, 1000)); 
     });

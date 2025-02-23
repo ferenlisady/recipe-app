@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 const RecipeSchema = z.object({
-  userId: z.string(),
   title: z.string().min(3),
   description: z.string().min(5),
   ingredients: z.string().transform((val) => val.split(',')),
@@ -21,8 +20,7 @@ const CreateRecipe = RecipeSchema;
 const UpdateRecipe = RecipeSchema;
 
 export type State = {
-  errors?: {
-    userId?: string[];       
+  errors?: {      
     title?: string[];        
     description?: string[];  
     ingredients?: string[];  
@@ -36,7 +34,6 @@ export type State = {
 export async function createRecipe(prevState: State, formData: FormData) {
   // console.log('createRecipe function triggered!');
   const validated = CreateRecipe.safeParse({
-    userId: formData.get('userId'),
     title: formData.get('title'),
     description: formData.get('description'),
     ingredients: formData.get('ingredients'),
@@ -54,7 +51,7 @@ export async function createRecipe(prevState: State, formData: FormData) {
     };
   }
   // console.log('Validation Success:', validated.data);
-  const { userId, title, description, ingredients, instructions, category, image } = validated.data;
+  const { title, description, ingredients, instructions, category, image } = validated.data;
   const ingredientsArray = ingredients.map((ingredient: string) => ingredient.trim());
   const id = uuidv4();
 
@@ -63,13 +60,13 @@ export async function createRecipe(prevState: State, formData: FormData) {
     imageUrl = `/assets/${image.name}`;
   }
 
-  console.log('Inserting Recipe:', { id, userId, title, description, ingredientsArray, instructions, category, imageUrl });
+  console.log('Inserting Recipe:', { id, title, description, ingredientsArray, instructions, category, imageUrl });
   try {
     await sql`
-      INSERT INTO recipes (id, user_id, title, description, ingredients, instructions, category, image_url, created_at)
-      VALUES (${id}, ${userId}, ${title}, ${description}, ${ingredientsArray}, ${instructions}, ${category}, ${imageUrl}, NOW())
+      INSERT INTO recipes (id, title, description, ingredients, instructions, category, image_url)
+      VALUES (${id}, ${title}, ${description}, ${ingredientsArray}, ${instructions}, ${category}, ${imageUrl})
       `;
-      // console.log('Recipe Added:', { id, userId, title, description, ingredientsArray, instructions, category, imageUrl });
+      // console.log('Recipe Added:', { id, title, description, ingredientsArray, instructions, category, imageUrl });
   } catch (error) {
     console.error('Database Error:', error);
     return { success: false, message: 'Database Error: Failed to create recipe.' };
@@ -86,7 +83,6 @@ export async function updateRecipe(
   // console.log('updateRecipe function triggered!');
 
   // console.log('Submitting Form Data:', {
-  //   userId: formData.get('userId'),
   //   title: formData.get('title'),
   //   description: formData.get('description'),
   //   ingredients: formData.get('ingredients'), 
@@ -96,7 +92,6 @@ export async function updateRecipe(
   // });
 
   const validated = UpdateRecipe.safeParse({
-    userId: formData.get('userId'),
     title: formData.get('title'),
     description: formData.get('description'),
     ingredients: formData.get('ingredients')?.toString(),  

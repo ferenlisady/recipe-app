@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 export default function UpdateRecipeForm({
   recipe,
   categories,
-  userId,
 }: {
   recipe: {
     id: string;
@@ -19,7 +18,6 @@ export default function UpdateRecipeForm({
     image_url: string | null;
   };
   categories: string[];
-  userId: string;
 }) {
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState(recipe.title);
@@ -44,7 +42,6 @@ export default function UpdateRecipeForm({
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('userId', userId);
     formData.append('title', title);
     formData.append('description', description);
     formData.append('ingredients', ingredients.join(','));

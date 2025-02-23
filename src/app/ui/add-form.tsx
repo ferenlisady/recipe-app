@@ -5,7 +5,7 @@ import { useActionState, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Typography, TextField, MenuItem, Select, Box, Button, Alert, CircularProgress } from '@mui/material';
 
-export default function AddRecipeForm({ userId, categories }: { userId: string; categories: string[] }) {
+export default function AddRecipeForm({ categories }: { categories: string[] }) {
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -29,7 +29,6 @@ export default function AddRecipeForm({ userId, categories }: { userId: string; 
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('userId', userId);
     formData.append('title', title);
     formData.append('description', description);
     formData.append('ingredients', ingredients.join(','));
@@ -42,7 +41,7 @@ export default function AddRecipeForm({ userId, categories }: { userId: string; 
     }
 
     startTransition(async () => {
-        await formAction(formData);
+        formAction(formData);
 
         if (state.message && state.message.includes('successfully')) {
           router.push('/recipes/my-recipes');

@@ -1,5 +1,5 @@
 export const generatePagination = (currentPage: number, totalItems: number) => {
-    const itemsPerPage = 6;
+    const itemsPerPage = 3;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
   
     if (totalPages <= 7) {
