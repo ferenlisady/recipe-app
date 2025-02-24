@@ -1,6 +1,8 @@
-import AddRecipeForm from '@/app/ui/Add-form';
+import AddRecipeForm from '@/app/ui/forms/Add-form';
 import Breadcrumbs from '@/app/ui/Breadcrumbs';
 import { getCategories } from '@/app/lib/data';
+import { FormSkeleton } from '@/app/ui/skeletons/FormSkeleton';
+import { Suspense } from 'react';
 
 export default async function Page() {
   const categories = await getCategories(); 
@@ -13,7 +15,9 @@ export default async function Page() {
           { label: 'Add Recipe', href: '/recipes/add', active: true },
         ]}
       />
-      <AddRecipeForm categories={categories} />
+      <Suspense fallback={<FormSkeleton />}>
+        <AddRecipeForm categories={categories} />
+      </Suspense>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 import postgres from 'postgres';
 import { recipes } from '../lib/placeholder-data';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require', connect_timeout: 100000 });
 
 async function createTables(sql: any) {
   try {

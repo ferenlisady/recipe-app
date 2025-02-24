@@ -5,7 +5,7 @@ import RecipesList from '@/app/recipes/RecipeList'
 import { getTotalItems } from '@/app/lib/data';
 import { Suspense } from 'react';
 import { AddRecipeButton } from '@/app/ui/Buttons';
-import Loading from '@/app/recipes/(overview)/loading';
+import { RecipeCardSkeleton } from '@/app/ui/skeletons/RecipeCardSkeleton'
 
 export default async function RecipesPage(props: { searchParams?: Promise<{ query?: string; page?: string }> }) {
   const searchParams = await props.searchParams;
@@ -29,9 +29,7 @@ export default async function RecipesPage(props: { searchParams?: Promise<{ quer
         <AddRecipeButton />
       </Box>
 
-      <Suspense fallback={<Loading />}>
-        <RecipesList query={query} currentPage={currentPage} />
-      </Suspense>
+      <RecipesPage />
 
       <Box className="mt-6 flex justify-center">
         <Pagination totalItems={totalItems} />

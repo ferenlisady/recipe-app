@@ -1,10 +1,12 @@
 import Breadcrumbs from '@/app/ui/Breadcrumbs';
 import { getCategories, getRecipeById  } from '@/app/lib/data';
-import EditRecipeForm from '@/app/ui/Update-form';
+import EditRecipeForm from '@/app/ui/forms/Update-form';
 import { Typography } from '@mui/material';
+import { FormSkeleton } from '@/app/ui/skeletons/FormSkeleton';
+import { Suspense } from 'react';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const id  = params.id;
+  const { id } = await params;
   const categories = await getCategories(); 
   const recipe = await getRecipeById(id);
 
@@ -20,7 +22,9 @@ export default async function Page({ params }: { params: { id: string } }) {
               { label: 'Update Recipe', href: `/recipes/${id}/update`, active: true },
             ]}
           />
-          <EditRecipeForm recipe={recipe} categories={categories} />
+        <Suspense fallback={<FormSkeleton />}>
+            <EditRecipeForm recipe={recipe} categories={categories} />
+        </Suspense>
         </main>
   );
 }

@@ -51,10 +51,10 @@ importers:
         specifier: ^3.4.5
         version: 3.4.5
       react:
-        specifier: latest
+        specifier: ^19.0.0
         version: 19.0.0
       react-dom:
-        specifier: latest
+        specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
       tailwindcss:
         specifier: 3.4.17

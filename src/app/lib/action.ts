@@ -5,7 +5,7 @@ import postgres from 'postgres';
 import { revalidatePath } from 'next/cache';
 import { v4 as uuidv4 } from 'uuid';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require', connect_timeout: 100000 });
 
 const RecipeSchema = z.object({
   title: z.string().min(3),
@@ -55,7 +55,7 @@ export async function createRecipe(prevState: State, formData: FormData) {
   const ingredientsArray = ingredients.map((ingredient: string) => ingredient.trim());
   const id = uuidv4();
 
-  let imageUrl = '';
+  let imageUrl = 'default-image.jpg';
   if (image && image instanceof File) {
     imageUrl = `/assets/${image.name}`;
   }
@@ -114,7 +114,7 @@ export async function updateRecipe(
   const { title, description, ingredients, instructions, category, image } = validated.data;
   const ingredientsArray = ingredients.map((ingredient: string) => ingredient.trim());
 
-  let imageUrl = '';
+  let imageUrl = 'default-image.jpg';
   const uploadedImage = formData.get('image');
 
   if (uploadedImage && uploadedImage instanceof File) {
@@ -123,7 +123,7 @@ export async function updateRecipe(
     const currentRecipe = await sql`
       SELECT image_url FROM recipes WHERE id = ${id}
     `;
-    imageUrl = currentRecipe.length > 0 ? currentRecipe[0].image_url : '';
+    imageUrl = currentRecipe.length > 0 ? currentRecipe[0].image_url : 'default-image.jpg';
   }
 
   try {

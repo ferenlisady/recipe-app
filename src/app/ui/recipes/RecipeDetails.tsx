@@ -10,18 +10,7 @@ async function RecipeDetails({ id }: { id: string }) {
   return (
     <>
       <Box className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-8 mb-5">
-        <CardMedia
-          component="img"
-          image={recipe.image_url || '/default-image.jpg'}
-          alt={recipe.title}
-          sx={{
-            width: '30%',
-            sm: { width: '30%' },
-            md: { width: '20%' },
-            objectFit: 'cover',
-            borderRadius: '8px',
-          }}
-        />
+        <CardMedia component="img" image={recipe.image_url || '/default-image.jpg'} alt={recipe.title} sx={{ width: '30%', sm: { width: '30%' }, md: { width: '20%' }, objectFit: 'cover', borderRadius: '8px' }} />
         <Box>
           <Typography variant="h3" gutterBottom className="text-primary">
             {recipe.title}

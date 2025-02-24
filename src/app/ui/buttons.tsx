@@ -6,6 +6,16 @@ import { deleteRecipe } from "@/app/lib/action";
 import Link from "next/link";
 import { useTransition } from "react";
 
+export function ViewRecipeButton({ id }: { id: string }) {
+  return (
+    <Link href={`/recipes/${id}`}>
+      <Button variant="contained" color="primary" >
+          View
+      </Button>
+    </Link>
+  )
+}
+
 export function AddRecipeButton() {
   return (
     <Link href="/recipes/add">
@@ -36,13 +46,7 @@ export function DeleteRecipeButton({ id }: { id: string }) {
       })}
       className="inline"
     >
-      <Button
-        type="submit"
-        variant="outlined"
-        color="error"
-        startIcon={<Delete />}
-        disabled={isPending}
-      >
+      <Button type="submit" variant="outlined" color="error" startIcon={<Delete />} >
         Delete
       </Button>
     </form>

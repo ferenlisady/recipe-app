@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
 import { Recipe } from '@/app/lib/definition';
-import RecipeCard from '@/app/ui/RecipeCard';
+import RecipeCard from '@/app/ui/recipes/RecipeCard';
 import { Suspense, use } from 'react';
 import { getFilteredRecipes } from '@/app/lib/data';
-import Loading from '@/app/recipes/(overview)/loading';
+import { RecipeCardSkeleton } from '@/app/ui/skeletons/RecipeCardSkeleton'
 
 function RecipesList({ query, currentPage }: { query: string; currentPage: number }) {
   const recipes = use(getFilteredRecipes(query, currentPage)); 
@@ -21,7 +21,7 @@ function RecipesList({ query, currentPage }: { query: string; currentPage: numbe
 
 export default function RecipesPage({ query, currentPage }: { query: string; currentPage: number }) {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<RecipeCardSkeleton />}>
       <RecipesList query={query} currentPage={currentPage} />
     </Suspense>
   );

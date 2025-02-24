@@ -17,4 +17,13 @@ export const recipes = [
       category: 'Lunch',
       image_url: '/assets/spaghetti.jpg',
     },
+    {
+      id: 'c3d4e5f6-7890-1234-5678-9abcdef01234',
+      title: 'Strawberry Waffle',
+      description: 'Crispy waffles topped with fresh strawberries and whipped cream.',
+      ingredients: ['Flour', 'Eggs', 'Milk', 'Sugar', 'Butter', 'Strawberries', 'Whipped Cream'],
+      instructions: 'Mix the batter, cook in a waffle maker, and top with strawberries and whipped cream.',
+      category: 'Dessert',
+      image_url: '/assets/strawberry-waffle.jpg',
+    },
 ];  

@@ -1,6 +1,6 @@
 import postgres from 'postgres';
 import { Recipe } from '@/app/lib/definition';  
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require', connect_timeout: 100000 });
 
 const ITEMS_PER_PAGE = 3;
       
